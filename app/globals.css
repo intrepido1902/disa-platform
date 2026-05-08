@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --foreground-rgb: 51, 51, 51;
+}
+
 body {
+  color: rgb(var(--foreground-rgb));
   background-color: #EBE0D5;
+  font-family: var(--font-inter), sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-montserrat), sans-serif;
 }
