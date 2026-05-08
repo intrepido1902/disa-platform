@@ -5,18 +5,24 @@
 :root {
   --disa-blue: #0A1F44;
   --disa-gold: #C5A059;
-  --disa-sand: #EBE0D5;
+  --disa-sand: #F8F5F2; /* Fondo de lujo */
 }
 
 body {
-  font-family: var(--font-inter), sans-serif;
+  background-color: var(--disa-sand);
+  color: var(--disa-blue);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, .font-display {
+/* Tipografía Editorial */
+h1, h2, h3 {
   font-family: var(--font-montserrat), sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
 }
 
-/* Transición suave para el cambio de modo B2B/B2C */
-.mode-transition {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* Estilo de línea divisoria minimalista (1px exacto) */
+.divider {
+  @apply h-px bg-disa-blue/10 w-full;
 }

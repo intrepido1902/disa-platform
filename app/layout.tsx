@@ -1,25 +1,22 @@
-import { Montserrat, Inter } from "next/font/google";
 import "./globals.css";
+import { Montserrat, Inter } from "next/font/google";
 
 const montserrat = Montserrat({ 
   subsets: ["latin"], 
-  variable: "--font-montserrat",
-  weight: ["300", "400", "700", "900"],
-  display: "swap"
+  variable: '--font-montserrat',
+  weight: ['300', '700', '900'] // Pesos para elegancia y fuerza
 });
 
 const inter = Inter({ 
   subsets: ["latin"], 
-  variable: "--font-inter",
-  weight: ["300", "400", "600"],
-  display: "swap"
+  variable: '--font-inter',
+  weight: ['300', '400', '600'] 
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${montserrat.variable} ${inter.variable} font-sans bg-disa-sand selection:bg-disa-gold selection:text-disa-blue`}>
-        {/* Aquí iría el Provider de Contexto para el Modo de Navegación */}
+      <body className={`${montserrat.variable} ${inter.variable} font-sans bg-[#F8F5F2] text-[#0A1F44] antialiased`}>
         {children}
       </body>
     </html>
