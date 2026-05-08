@@ -1,36 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@theme {
+  /* Definición de colores DISA para Tailwind v4 */
+  --color-disa-blue: #0A1F44;
+  --color-disa-gold: #C5A059;
+  --color-disa-sand: #F8F5F2;
+  
+  /* Fuentes configuradas en layout.tsx */
+  --font-display: var(--font-montserrat), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
+}
 
 :root {
-  --disa-blue: #0A1F44;
-  --disa-gold: #C5A059;
-  --disa-sand: #F8F5F2; /* Tono arena de lujo */
+  background-color: var(--color-disa-sand);
+  color: var(--color-disa-blue);
 }
 
 body {
-  background-color: var(--disa-sand);
-  color: var(--disa-blue);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  /* Usamos kebab-case para las clases: disa-sand, disa-blue, disa-gold */
+  @apply antialiased selection:bg-disa-gold selection:text-white bg-disa-sand text-disa-blue;
 }
 
-/* Tipografía de Lujo: Espaciado negativo agresivo */
+/* Tipografía Editorial Nivel Abaser */
 h1, h2, h3 {
-  font-family: var(--font-montserrat), sans-serif;
-  letter-spacing: -0.06em;
-  line-height: 0.85;
-  text-transform: uppercase;
-  font-style: italic;
+  @apply font-display tracking-tighter italic uppercase leading-[0.8];
 }
 
-/* Efecto de ruido sutil para textura de marca (Noise) */
+/* Efecto de ruido sutil para textura de marca premium */
 body::after {
   content: "";
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  opacity: 0.03;
-  z-index: 9999;
-  pointer-events: none;
+  @apply fixed inset-0 opacity-[0.03] z-[9999] pointer-events-none;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }
