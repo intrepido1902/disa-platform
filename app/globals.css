@@ -3,6 +3,5 @@
 @tailwind utilities;
 
 body {
-  background-color: #E8E0D5; /* Fondo Warm Sand */
-  color: #333333; /* Texto Charcoal */
+  background-color: #EBE0D5;
 }
