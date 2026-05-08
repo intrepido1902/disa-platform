@@ -5,24 +5,32 @@
 :root {
   --disa-blue: #0A1F44;
   --disa-gold: #C5A059;
-  --disa-sand: #F8F5F2; /* Fondo de lujo */
+  --disa-sand: #F8F5F2; /* Tono arena de lujo */
 }
 
 body {
   background-color: var(--disa-sand);
   color: var(--disa-blue);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Tipografía Editorial */
+/* Tipografía de Lujo: Espaciado negativo agresivo */
 h1, h2, h3 {
   font-family: var(--font-montserrat), sans-serif;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  font-style: italic;
 }
 
-/* Estilo de línea divisoria minimalista (1px exacto) */
-.divider {
-  @apply h-px bg-disa-blue/10 w-full;
+/* Efecto de ruido sutil para textura de marca (Noise) */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.03;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }
