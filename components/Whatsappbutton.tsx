@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 // ============================================================
 
 // TODO: Cambiar por el número real de WhatsApp Business de DISA
-const WHATSAPP_NUMBER = "573001234567";
+const WHATSAPP_NUMBER = "3007805902";
 const DEFAULT_MESSAGE =
   "Hola DISA 👋 Me interesa conocer más sobre sus textiles premium. ¿Pueden ayudarme?";
 
