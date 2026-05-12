@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Nav } from "./Nav";
-import { HeroSlider } from "../app/HeroSlider";
-import { CategoriesStrip } from "./CategoriesStrip";
+
+// IMPORTACIONES CORREGIDAS PARA COINCIDIR EXACTAMENTE CON TUS ARCHIVOS REAles
+import { Logo } from "./Logo"; 
+import { HeroSlider } from "../app/Heroslider"; 
+import { CategoriesStrip } from "./Categoriesstrip"; 
 import { Showroom } from "./Showroom";
 import { DualProductCard } from "./DualProductCard";
 import { Footer } from "./Footer";
-import { WhatsAppButton } from "./WhatsAppButton";
+import { WhatsAppButton } from "./Whatsappbutton"; 
 import type { Producto, ViewMode } from "@/types";
 
 interface HomePageClientProps {
@@ -20,8 +22,20 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
   return (
     <main className="relative min-h-screen bg-disa-sand font-sans overflow-x-hidden">
 
-      {/* ── NAVEGACIÓN ───────────────────────────────────────────── */}
-      <Nav />
+      {/* ── NAVEGACIÓN INLINE (Soluciona el error del archivo Nav faltante) ── */}
+      <nav className="fixed top-0 w-full z-[100] px-8 md:px-16 py-12 flex justify-between items-center mix-blend-difference text-white">
+        <div className="w-32 md:w-48">
+          <Logo className="w-full h-auto text-white" />
+        </div>
+        
+        <div className="hidden lg:flex gap-16 text-[9px] font-bold uppercase tracking-[0.4em]">
+          <a href="#catalogo" className="hover:text-disa-gold transition-colors duration-500">Colecciones</a>
+          <a href="#showroom" className="hover:text-disa-gold transition-colors duration-500">Proyectos</a>
+          <button className="bg-white text-disa-blue px-8 py-3 rounded-full hover:bg-disa-gold transition-all duration-500 font-black tracking-widest">
+            Cotizar
+          </button>
+        </div>
+      </nav>
 
       {/* ── HERO SLIDER ──────────────────────────────────────────── */}
       <HeroSlider />
