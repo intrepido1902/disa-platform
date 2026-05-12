@@ -2,46 +2,37 @@
 @plugin "tailwindcss-animate";
 
 /* ============================================================
-   DISA DESIGN SYSTEM — Tailwind v4 CSS-first configuration
-   Aquí vive TODA la config. tailwind.config.ts debe eliminarse.
+   DISA DESIGN SYSTEM v2 — Premium Institucional
+   Camino B: Sans-serif uppercase, cálido, accesible
+   Tailwind v4 CSS-first configuration
    ============================================================ */
 
 @theme {
   /* --- PALETA DE MARCA --- */
-  --color-disa-blue:      #0A1F44;   /* Navy principal */
-  --color-disa-blue-90:   #0d2455;   /* Navy ligeramente más claro */
-  --color-disa-blue-mid:  #1a3a6e;   /* Navy para hovers / bordes */
-  --color-disa-gold:      #C5A059;   /* Gold principal */
-  --color-disa-gold-light:#d4b47a;   /* Gold hover */
-  --color-disa-gold-pale: #f0e4c8;   /* Gold sutilísimo para fondos */
-  --color-disa-sand:      #F8F5F2;   /* Fondo base */
-  --color-disa-sand-dark: #ede8e2;   /* Fondo sección alternada */
-  --color-disa-white:     #FFFFFF;
-  --color-disa-ink:       #1a1a1a;   /* Texto cuerpo oscuro */
+  --color-disa-blue:      #0A1F44;   /* Navy oficial del logo */
+  --color-disa-blue-mid:  #1a3360;   /* Navy para hovers */
+  --color-disa-blue-soft: #2a4a7d;   /* Navy claro para overlays */
+  --color-disa-gold:      #C5A059;   /* Gold oficial del logo */
+  --color-disa-gold-light:#d4b573;   /* Gold hover */
+  --color-disa-gold-pale: #ebdcb8;   /* Gold sutil para fondos */
+  --color-disa-sand:      #F8F5F2;   /* Crema cálido base */
+  --color-disa-sand-warm: #f0ebe3;   /* Sand alternativo */
+  --color-disa-cream:     #fdfaf6;   /* Crema más claro */
+  --color-disa-ink:       #1a1a1a;   /* Texto cuerpo */
   --color-disa-muted:     #6b7280;   /* Texto secundario */
 
   /* --- TIPOGRAFÍA --- */
-  --font-display: var(--font-montserrat), "Georgia", serif;
+  --font-display: var(--font-inter), system-ui, sans-serif;
   --font-sans:    var(--font-inter), system-ui, sans-serif;
-  --font-mono:    "JetBrains Mono", "Courier New", monospace;
+  --font-serif:   "Georgia", "Times New Roman", serif;
 
-  /* --- ESPACIADO CUSTOM --- */
-  --spacing-section: 8rem;    /* py-section */
-  --spacing-section-sm: 5rem; /* py-section-sm */
-
-  /* --- BORDES --- */
-  --radius-card: 0px;         /* DISA usa esquinas rectas — estilo arquitectónico */
-  --radius-pill: 9999px;
-
-  /* --- SOMBRAS --- */
+  /* --- SOMBRAS LUXURY --- */
   --shadow-luxury: 0 25px 60px -15px rgba(10, 31, 68, 0.25);
-  --shadow-card:   0 4px 24px rgba(10, 31, 68, 0.08);
+  --shadow-card:   0 4px 24px rgba(10, 31, 68, 0.06);
+  --shadow-gold:   0 20px 60px -10px rgba(197, 160, 89, 0.4);
 
   /* --- TRANSICIONES --- */
-  --duration-slow:   700ms;
-  --duration-medium: 400ms;
-  --duration-fast:   200ms;
-  --ease-luxury:     cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ============================================================
@@ -61,165 +52,195 @@
 
 body {
   @apply bg-disa-sand text-disa-blue font-sans;
-  selection-background-color: var(--color-disa-gold);
-  selection-color: white;
 }
 
 /* ============================================================
-   TIPOGRAFÍA DE SISTEMA — Jerarquía Arquitectónica
+   TIPOGRAFÍA INSTITUCIONAL — Sans uppercase, sin italic
    ============================================================ */
 
-h1, h2, h3 {
-  font-family: var(--font-display);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-inter);
   font-weight: 900;
-  font-style: italic;
-  text-transform: uppercase;
   letter-spacing: -0.02em;
-  line-height: 0.85;
+  line-height: 0.95;
 }
 
-h4, h5, h6 {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4em;
-  font-size: 0.6rem;
-}
+h1 { text-transform: uppercase; }
+h2 { text-transform: uppercase; }
 
 p {
-  font-family: var(--font-sans);
+  font-family: var(--font-inter);
   line-height: 1.7;
+  font-weight: 300;
 }
 
 /* ============================================================
-   COMPONENTES UTILITARIOS DISA
+   COMPONENTES UTILITARIOS
    ============================================================ */
 
-/* Label de categoría — se repite en toda la UI */
+/* Label editorial — barra + texto gold */
 .disa-label {
-  font-family: var(--font-sans);
-  font-size: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-inter);
+  font-size: 0.625rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5em;
-  font-style: italic;
   color: var(--color-disa-gold);
 }
 
-/* Línea divisora con margen consistente */
+.disa-label::before {
+  content: "";
+  width: 3rem;
+  height: 1px;
+  background-color: var(--color-disa-gold);
+}
+
+/* Divisor */
 .disa-divider {
   border: none;
   border-top: 1px solid color-mix(in srgb, var(--color-disa-blue) 10%, transparent);
 }
 
-/* Botón primario — fondo gold */
+/* Botón primario */
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2.5rem;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
   background-color: var(--color-disa-gold);
-  color: var(--color-disa-white);
-  font-family: var(--font-sans);
-  font-size: 0.6rem;
+  color: var(--color-disa-cream);
+  font-family: var(--font-inter);
+  font-size: 0.625rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   border: none;
   cursor: pointer;
-  transition: background-color var(--duration-medium) var(--ease-luxury),
-              transform var(--duration-fast) var(--ease-luxury);
+  transition: all 0.5s var(--ease-luxury);
 }
 .btn-primary:hover {
   background-color: var(--color-disa-gold-light);
-  transform: translateY(-1px);
-}
-.btn-primary:active {
-  transform: translateY(0);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
 }
 
-/* Botón ghost — borde disa-blue */
+/* Botón secundario */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
+  background-color: var(--color-disa-blue);
+  color: white;
+  font-family: var(--font-inter);
+  font-size: 0.625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s var(--ease-luxury);
+}
+.btn-secondary:hover {
+  background-color: var(--color-disa-blue-mid);
+  transform: translateY(-2px);
+}
+
+/* Botón ghost */
 .btn-ghost {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2.5rem;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
   background-color: transparent;
   color: var(--color-disa-blue);
   border: 1px solid color-mix(in srgb, var(--color-disa-blue) 20%, transparent);
-  font-family: var(--font-sans);
-  font-size: 0.6rem;
+  font-family: var(--font-inter);
+  font-size: 0.625rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   cursor: pointer;
-  transition: all var(--duration-medium) var(--ease-luxury);
+  transition: all 0.5s var(--ease-luxury);
 }
 .btn-ghost:hover {
   background-color: var(--color-disa-blue);
-  color: var(--color-disa-white);
+  color: white;
 }
 
-/* Input base DISA */
+/* Input premium */
 .disa-input {
   background: transparent;
   border: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-disa-gold) 50%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-disa-blue) 15%, transparent);
   padding: 0.5rem 0;
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-family: var(--font-inter);
+  font-size: 1.125rem;
   font-weight: 700;
-  font-style: italic;
   color: var(--color-disa-blue);
   outline: none;
-  transition: border-color var(--duration-fast);
+  transition: border-color 0.3s;
   width: 100%;
 }
 .disa-input:focus {
   border-color: var(--color-disa-gold);
 }
 .disa-input::placeholder {
-  color: color-mix(in srgb, var(--color-disa-blue) 30%, transparent);
-  font-style: italic;
+  color: color-mix(in srgb, var(--color-disa-blue) 25%, transparent);
 }
 
 /* ============================================================
-   EFECTO DE TEXTURA SUTIL (grain de película)
+   SELECTION & SCROLLBAR
    ============================================================ */
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  opacity: 0.035;
-  z-index: 9999;
-  pointer-events: none;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+::selection {
+  background-color: var(--color-disa-gold);
+  color: white;
 }
-
-/* ============================================================
-   SCROLLBAR CUSTOM
-   ============================================================ */
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-disa-sand);
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-disa-gold) 60%, transparent);
-  border-radius: 2px;
+  background: color-mix(in srgb, var(--color-disa-blue) 30%, transparent);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-disa-gold);
 }
 
 /* ============================================================
-   SELECTION
+   GRAIN TEXTURE (muy sutil)
    ============================================================ */
 
-::selection {
-  background-color: var(--color-disa-gold);
-  color: white;
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s var(--ease-luxury);
 }

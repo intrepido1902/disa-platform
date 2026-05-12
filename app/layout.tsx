@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Montserrat, Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
 // ─── FUENTES ──────────────────────────────────────────────────────────────────
@@ -7,110 +7,88 @@ import "./globals.css";
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["700", "900"],
-  style: ["normal", "italic"],
-  display: "swap",  // Evita FOIT — texto visible mientras carga
+  weight: ["500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-// ─── SEO BASE — se puede sobreescribir por página con generateMetadata() ──────
+// Cormorant Garamond — serif elegante estilo magazine premium
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+// ─── METADATA ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  // Básico
   title: {
-    default: "DISA | Textiles Premium para Cortinas y Persianas — Bogotá",
+    default: "DISA | Textiles y Persianas — Colombia",
     template: "%s | DISA Textiles",
   },
   description:
-    "DISA es la empresa líder en textiles para cortinas, persianas y soluciones decorativas en Colombia. Distribución B2B y venta B2C. Control solar de alta gama. Bogotá.",
-
-  // Palabras clave (ayuda secundaria para SEO)
+    "DISA es la casa de textiles arquitectónicos en Colombia. Cortinas, persianas y soluciones de control solar de alto diseño. B2B y B2C en Bogotá.",
   keywords: [
-    "cortinas Bogotá",
-    "persianas colombia",
-    "textiles decorativos",
-    "control solar arquitectónico",
-    "telas para cortinas",
-    "persianas B2B Colombia",
-    "DISA textiles",
-    "screen sun control",
-    "blackout premium",
+    "cortinas premium Colombia",
+    "persianas Bogotá",
+    "textiles arquitectónicos",
+    "control solar",
+    "DISA",
   ],
-
-  // Autor y marca
-  authors: [{ name: "DISA Textiles", url: "https://disa-platform.vercel.app" }],
+  authors: [{ name: "DISA Textiles" }],
   creator: "DISA Textiles Colombia",
   publisher: "DISA Textiles Colombia",
-
-  // Open Graph (WhatsApp, Facebook, LinkedIn)
   openGraph: {
     type: "website",
     locale: "es_CO",
     url: "https://disa-platform.vercel.app",
     siteName: "DISA Textiles",
-    title: "DISA | Textiles Premium para Cortinas y Persianas",
+    title: "DISA | Textiles y Persianas Premium — Colombia",
     description:
-      "Descubre colecciones premium de textiles para cortinas y persianas. Soluciones B2B y B2C en Colombia.",
+      "La casa colombiana de textiles arquitectónicos. Cortinas, persianas y soluciones de control solar de alto diseño.",
     images: [
       {
-        url: "https://disa-platform.vercel.app/og-image.jpg", // Crear esta imagen: 1200x630px
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "DISA Textiles — Elevate tus espacios con textiles premium",
+        alt: "DISA — Textiles y Persianas Premium Colombia",
       },
     ],
   },
-
-  // Twitter Card
   twitter: {
     card: "summary_large_image",
     title: "DISA | Textiles Premium Colombia",
-    description: "Cortinas y persianas de alto diseño. B2B y B2C.",
-    images: ["https://disa-platform.vercel.app/og-image.jpg"],
+    description: "Cortinas, persianas y control solar de alto diseño.",
+    images: ["/og-image.jpg"],
   },
-
-  // Robots
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": -1,
     },
   },
-
-  // Verificación de Search Console (agregar cuando se tenga acceso)
-  // verification: {
-  //   google: "TU_CODIGO_AQUI",
-  // },
-
-  // Canonical base URL
   metadataBase: new URL("https://disa-platform.vercel.app"),
-
-  // Favicons (agregar archivos en /public)
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
 };
-
-// ─── VIEWPORT ────────────────────────────────────────────────────────────────
 
 export const viewport: Viewport = {
   themeColor: "#0A1F44",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
 };
 
 // ─── LAYOUT ──────────────────────────────────────────────────────────────────
@@ -123,10 +101,9 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${montserrat.variable} ${inter.variable}`}
+      className={`${montserrat.variable} ${inter.variable} ${cormorant.variable}`}
     >
       <body className="antialiased font-sans">
-        {/* Schema.org Organization — ayuda a Google a entender DISA */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -134,10 +111,11 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "DISA Textiles",
+              alternateName: "DISA Textiles y Persianas Colombia",
               url: "https://disa-platform.vercel.app",
               logo: "https://disa-platform.vercel.app/logo.png",
               description:
-                "Empresa colombiana especializada en textiles para cortinas, persianas y soluciones decorativas. Distribución B2B y venta B2C.",
+                "Empresa colombiana especializada en textiles arquitectónicos, cortinas, persianas y soluciones decorativas. B2B y B2C.",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Bogotá",
@@ -149,11 +127,6 @@ export default function RootLayout({
                 contactType: "sales",
                 availableLanguage: "Spanish",
               },
-              sameAs: [
-                // Agregar URLs reales cuando existan:
-                // "https://www.instagram.com/disatextiles",
-                // "https://www.linkedin.com/company/disa-textiles",
-              ],
             }),
           }}
         />
