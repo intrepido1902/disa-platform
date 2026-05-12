@@ -1,32 +1,225 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
+/* ============================================================
+   DISA DESIGN SYSTEM — Tailwind v4 CSS-first configuration
+   Aquí vive TODA la config. tailwind.config.ts debe eliminarse.
+   ============================================================ */
+
 @theme {
-  --color-disa-blue: #0A1F44;
-  --color-disa-gold: #C5A059;
-  --color-disa-sand: #F8F5F2;
-  
-  --font-display: var(--font-montserrat), sans-serif;
-  --font-sans: var(--font-inter), sans-serif;
+  /* --- PALETA DE MARCA --- */
+  --color-disa-blue:      #0A1F44;   /* Navy principal */
+  --color-disa-blue-90:   #0d2455;   /* Navy ligeramente más claro */
+  --color-disa-blue-mid:  #1a3a6e;   /* Navy para hovers / bordes */
+  --color-disa-gold:      #C5A059;   /* Gold principal */
+  --color-disa-gold-light:#d4b47a;   /* Gold hover */
+  --color-disa-gold-pale: #f0e4c8;   /* Gold sutilísimo para fondos */
+  --color-disa-sand:      #F8F5F2;   /* Fondo base */
+  --color-disa-sand-dark: #ede8e2;   /* Fondo sección alternada */
+  --color-disa-white:     #FFFFFF;
+  --color-disa-ink:       #1a1a1a;   /* Texto cuerpo oscuro */
+  --color-disa-muted:     #6b7280;   /* Texto secundario */
+
+  /* --- TIPOGRAFÍA --- */
+  --font-display: var(--font-montserrat), "Georgia", serif;
+  --font-sans:    var(--font-inter), system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", "Courier New", monospace;
+
+  /* --- ESPACIADO CUSTOM --- */
+  --spacing-section: 8rem;    /* py-section */
+  --spacing-section-sm: 5rem; /* py-section-sm */
+
+  /* --- BORDES --- */
+  --radius-card: 0px;         /* DISA usa esquinas rectas — estilo arquitectónico */
+  --radius-pill: 9999px;
+
+  /* --- SOMBRAS --- */
+  --shadow-luxury: 0 25px 60px -15px rgba(10, 31, 68, 0.25);
+  --shadow-card:   0 4px 24px rgba(10, 31, 68, 0.08);
+
+  /* --- TRANSICIONES --- */
+  --duration-slow:   700ms;
+  --duration-medium: 400ms;
+  --duration-fast:   200ms;
+  --ease-luxury:     cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
 
 :root {
   background-color: var(--color-disa-sand);
   color: var(--color-disa-blue);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
-  @apply antialiased selection:bg-disa-gold selection:text-white bg-disa-sand text-disa-blue;
+  @apply bg-disa-sand text-disa-blue font-sans;
+  selection-background-color: var(--color-disa-gold);
+  selection-color: white;
 }
 
-/* Tipografía de Lujo Arquitectónico */
+/* ============================================================
+   TIPOGRAFÍA DE SISTEMA — Jerarquía Arquitectónica
+   ============================================================ */
+
 h1, h2, h3 {
-  @apply font-display tracking-[0.02em] italic uppercase leading-[0.8];
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.85;
 }
 
-/* Efecto de textura sutil */
+h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-size: 0.6rem;
+}
+
+p {
+  font-family: var(--font-sans);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   COMPONENTES UTILITARIOS DISA
+   ============================================================ */
+
+/* Label de categoría — se repite en toda la UI */
+.disa-label {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  font-style: italic;
+  color: var(--color-disa-gold);
+}
+
+/* Línea divisora con margen consistente */
+.disa-divider {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--color-disa-blue) 10%, transparent);
+}
+
+/* Botón primario — fondo gold */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2.5rem;
+  background-color: var(--color-disa-gold);
+  color: var(--color-disa-white);
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--duration-medium) var(--ease-luxury),
+              transform var(--duration-fast) var(--ease-luxury);
+}
+.btn-primary:hover {
+  background-color: var(--color-disa-gold-light);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Botón ghost — borde disa-blue */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2.5rem;
+  background-color: transparent;
+  color: var(--color-disa-blue);
+  border: 1px solid color-mix(in srgb, var(--color-disa-blue) 20%, transparent);
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: all var(--duration-medium) var(--ease-luxury);
+}
+.btn-ghost:hover {
+  background-color: var(--color-disa-blue);
+  color: var(--color-disa-white);
+}
+
+/* Input base DISA */
+.disa-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-disa-gold) 50%, transparent);
+  padding: 0.5rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--color-disa-blue);
+  outline: none;
+  transition: border-color var(--duration-fast);
+  width: 100%;
+}
+.disa-input:focus {
+  border-color: var(--color-disa-gold);
+}
+.disa-input::placeholder {
+  color: color-mix(in srgb, var(--color-disa-blue) 30%, transparent);
+  font-style: italic;
+}
+
+/* ============================================================
+   EFECTO DE TEXTURA SUTIL (grain de película)
+   ============================================================ */
+
 body::after {
   content: "";
-  @apply fixed inset-0 opacity-[0.04] z-[9999] pointer-events-none;
+  position: fixed;
+  inset: 0;
+  opacity: 0.035;
+  z-index: 9999;
+  pointer-events: none;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* ============================================================
+   SCROLLBAR CUSTOM
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-disa-sand);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-disa-gold) 60%, transparent);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-disa-gold);
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+::selection {
+  background-color: var(--color-disa-gold);
+  color: white;
 }
