@@ -1,6 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+// Quitamos el ": NextConfig" estricto para que no marque error con propiedades nuevas
+const nextConfig = {
+  // Permitimos los orígenes locales que pide tu consola
+  allowedDevOrigins: ['192.168.56.1', 'localhost', 'localhost:3000'],
+  
   images: {
     remotePatterns: [
       {

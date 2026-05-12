@@ -2,12 +2,10 @@
 @plugin "tailwindcss-animate";
 
 @theme {
-  /* Definición de colores DISA para Tailwind v4 */
   --color-disa-blue: #0A1F44;
   --color-disa-gold: #C5A059;
   --color-disa-sand: #F8F5F2;
   
-  /* Fuentes configuradas en layout.tsx */
   --font-display: var(--font-montserrat), sans-serif;
   --font-sans: var(--font-inter), sans-serif;
 }
@@ -18,18 +16,17 @@
 }
 
 body {
-  /* Usamos kebab-case para las clases: disa-sand, disa-blue, disa-gold */
   @apply antialiased selection:bg-disa-gold selection:text-white bg-disa-sand text-disa-blue;
 }
 
-/* Tipografía Editorial Nivel Abaser */
+/* Tipografía de Lujo Arquitectónico */
 h1, h2, h3 {
-  @apply font-display tracking-tighter italic uppercase leading-[0.8];
+  @apply font-display tracking-[0.02em] italic uppercase leading-[0.8];
 }
 
-/* Efecto de ruido sutil para textura de marca premium */
+/* Efecto de textura sutil */
 body::after {
   content: "";
-  @apply fixed inset-0 opacity-[0.03] z-[9999] pointer-events-none;
+  @apply fixed inset-0 opacity-[0.04] z-[9999] pointer-events-none;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }

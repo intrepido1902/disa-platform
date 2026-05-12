@@ -98,9 +98,10 @@ export default function HomePageClient({ initialTelas }: HomePageClientProps) {
       {/* CATÁLOGO PREMIUM (BORDES DE 1PX) */}
       <section id="catalogo" className="bg-disa-blue/10 p-px">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-disa-blue/10">
-          {initialTelas.map((tela, index) => (
-            <DualProductCard 
-              key={tela.id} 
+          {(initialTelas || []).map((tela, index) => (
+  <DualProductCard 
+    key={tela.id || index}
+            
               product={{
                 name: tela.nombre,
                 color: tela.color,
