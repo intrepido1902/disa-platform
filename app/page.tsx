@@ -1,25 +1,20 @@
-import { createClient } from '@supabase/supabase-js';
+import { getTelas } from '@/lib/supabase';
+import { telaToProducto } from '@/types';
 import HomePageClient from '@/components/HomePageClient';
+import type { Metadata } from 'next';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+export const metadata: Metadata = {
+  title: "DISA | Elevate tus Espacios con Textiles Premium",
+  description: "Cortinas, persianas y sistemas de control solar de alto diseño para residencias y proyectos corporativos en Colombia. Cotiza online — atención B2B y B2C.",
+};
 
-// Esto permite que Vercel sirva una versión estática súper rápida y la actualice cada hora
-export const revalidate = 3600; 
+export const revalidate = 3600;
 
 export default async function Page() {
-  // Obtenemos los datos directamente en el servidor
-  const { data: telas, error } = await supabase
-    .from('telas')
-    .select('*');
-
-  if (error) {
-    console.error('Error fetching data:', error);
-  }
+  const telas = await getTelas();
+  const productos = telas.map((t) => telaToProducto(t));
 
   return (
-    <HomePageClient initialTelas={telas || []} />
+    <HomePageClient productos={productos} />
   );
 }

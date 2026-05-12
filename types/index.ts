@@ -13,11 +13,11 @@ export interface TelaRow {
   color: string;
   precio_m2_b2b: number;
   precio_m2_b2c: number;
-  descripcion?: string;
-  categoria?: TelaCategoria;
-  imagen_url?: string;    // URL de Supabase Storage (futuro)
-  imagen_code?: string;   // Código de Unsplash (provisional)
-  ficha_tecnica?: FichaTecnica;
+  descripcion: string | null;
+  categoria: TelaCategoria | null;
+  imagen_url: string | null;
+  imagen_code: string | null;
+  ficha_tecnica: FichaTecnica | null;
   activo: boolean;
   created_at: string;
   updated_at: string;
@@ -141,26 +141,133 @@ export type ViewMode = "inspirational" | "technical";
 export type AsyncStatus = "idle" | "loading" | "success" | "error";
 
 // ─── SUPABASE DB TYPES ────────────────────────────────────────────────────────
-// Estructura completa de la DB para el cliente tipado de Supabase
+// Los tipos Row/Insert/Update DEBEN ser object literals (no referencias a
+// interfaces) para satisfacer el constraint Record<string, unknown> que
+// Supabase JS usa internamente al resolver los tipos genéricos de schema.
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       telas: {
-        Row: TelaRow;
-        Insert: Omit<TelaRow, "id" | "created_at" | "updated_at">;
-        Update: Partial<Omit<TelaRow, "id" | "created_at">>;
+        Row: {
+          id: string;
+          nombre: string;
+          color: string;
+          precio_m2_b2b: number;
+          precio_m2_b2c: number;
+          descripcion: string | null;
+          categoria: TelaCategoria | null;
+          imagen_url: string | null;
+          imagen_code: string | null;
+          ficha_tecnica: FichaTecnica | null;
+          activo: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          nombre: string;
+          color: string;
+          precio_m2_b2b: number;
+          precio_m2_b2c: number;
+          descripcion?: string | null;
+          categoria?: TelaCategoria | null;
+          imagen_url?: string | null;
+          imagen_code?: string | null;
+          ficha_tecnica?: FichaTecnica | null;
+          activo?: boolean;
+        };
+        Update: {
+          nombre?: string;
+          color?: string;
+          precio_m2_b2b?: number;
+          precio_m2_b2c?: number;
+          descripcion?: string | null;
+          categoria?: TelaCategoria | null;
+          imagen_url?: string | null;
+          imagen_code?: string | null;
+          ficha_tecnica?: FichaTecnica | null;
+          activo?: boolean;
+        };
+        Relationships: [];
       };
       cotizaciones: {
-        Row: Cotizacion & { id: string; created_at: string };
-        Insert: Omit<Cotizacion, "id" | "created_at">;
-        Update: Partial<Cotizacion>;
+        Row: {
+          id: string;
+          tipoCliente: TipoCliente;
+          nombre: string;
+          email: string;
+          telefono: string;
+          empresa: string | null;
+          nit: string | null;
+          ciudad: string;
+          lineas: LineaCotizacion[];
+          totalEstimado: number;
+          notas: string | null;
+          estado: EstadoCotizacion;
+          created_at: string;
+        };
+        Insert: {
+          tipoCliente: TipoCliente;
+          nombre: string;
+          email: string;
+          telefono: string;
+          empresa?: string | null;
+          nit?: string | null;
+          ciudad: string;
+          lineas: LineaCotizacion[];
+          totalEstimado: number;
+          notas?: string | null;
+          estado: EstadoCotizacion;
+        };
+        Update: {
+          tipoCliente?: TipoCliente;
+          nombre?: string;
+          email?: string;
+          telefono?: string;
+          empresa?: string | null;
+          nit?: string | null;
+          ciudad?: string;
+          lineas?: LineaCotizacion[];
+          totalEstimado?: number;
+          notas?: string | null;
+          estado?: EstadoCotizacion;
+        };
+        Relationships: [];
       };
       leads: {
-        Row: Lead & { id: string; created_at: string };
-        Insert: Omit<Lead, "id" | "created_at">;
-        Update: Partial<Lead>;
+        Row: {
+          id: string;
+          nombre: string;
+          email: string;
+          telefono: string | null;
+          empresa: string | null;
+          tipo: TipoCliente;
+          origen: OrigenLead;
+          mensaje: string | null;
+          created_at: string;
+        };
+        Insert: {
+          nombre: string;
+          email: string;
+          telefono?: string | null;
+          empresa?: string | null;
+          tipo: TipoCliente;
+          origen: OrigenLead;
+          mensaje?: string | null;
+        };
+        Update: {
+          nombre?: string;
+          email?: string;
+          telefono?: string | null;
+          empresa?: string | null;
+          tipo?: TipoCliente;
+          origen?: OrigenLead;
+          mensaje?: string | null;
+        };
+        Relationships: [];
       };
     };
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
   };
-}
+};
