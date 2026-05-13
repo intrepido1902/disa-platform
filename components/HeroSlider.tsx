@@ -4,10 +4,30 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const SLIDES = [
-  { id: 1, image: "/imagenes/hero/hero-1.jpeg", ambient: "Sala Premium", textile: "Cortinas Sheer" },
-  { id: 2, image: "/imagenes/hero/hero-2..jpeg", ambient: "Dormitorio", textile: "Blackout Premium" },
-  { id: 3, image: "/imagenes/hero/hero-3..jpeg", ambient: "Oficina Corporativa", textile: "Screen Solar" },
-  { id: 4, image: "/imagenes/hero/hero-4..jpeg", ambient: "Comedor", textile: "Lino Natural" },
+  {
+    id: 1,
+    image: "/imagenes/hero/hero-1.jpeg",
+    tag: "Screen Solar · Referencia técnica",
+    claim: "Fabricantes",
+  },
+  {
+    id: 2,
+    image: "/imagenes/hero/hero-2..jpeg",
+    tag: "Blackout · Alto rendimiento",
+    claim: "Distribuidores",
+  },
+  {
+    id: 3,
+    image: "/imagenes/hero/hero-3..jpeg",
+    tag: "Sheer · Colección premium",
+    claim: "Talleres",
+  },
+  {
+    id: 4,
+    image: "/imagenes/hero/hero-4..jpeg",
+    tag: "Lino · Fibras naturales",
+    claim: "Mayoristas",
+  },
 ];
 
 const INTERVAL = 3000;
@@ -22,10 +42,7 @@ export const HeroSlider = ({ onCotizarClick }: HeroSliderProps) => {
   const [paused, setPaused] = useState(false);
 
   const next = useCallback(() => {
-    setActive((p) => {
-      setPrev(p);
-      return (p + 1) % SLIDES.length;
-    });
+    setActive((p) => { setPrev(p); return (p + 1) % SLIDES.length; });
   }, []);
 
   useEffect(() => {
@@ -34,67 +51,82 @@ export const HeroSlider = ({ onCotizarClick }: HeroSliderProps) => {
     return () => clearInterval(t);
   }, [paused, next]);
 
-  const goTo = (idx: number) => {
-    setPrev(active);
-    setActive(idx);
-  };
-
   return (
     <section
       className="relative h-screen w-full overflow-hidden bg-disa-blue"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      aria-label="Ambientes destacados DISA"
+      aria-label="DISA — Proveedor de textiles para la industria"
     >
-      {/* Todas las slides siempre montadas — crossfade con opacity */}
+      {/* Slides con crossfade CSS puro */}
       {SLIDES.map((slide, idx) => (
         <div
           key={slide.id}
           className="absolute inset-0 transition-opacity duration-[1400ms] ease-in-out"
-          style={{ opacity: idx === active ? 1 : 0, zIndex: idx === active ? 2 : idx === prev ? 1 : 0 }}
-          aria-hidden={idx !== active}
+          style={{
+            opacity: idx === active ? 1 : 0,
+            zIndex: idx === active ? 2 : idx === prev ? 1 : 0,
+          }}
         >
           <Image
             src={slide.image}
-            alt={`${slide.ambient} — DISA`}
+            alt={slide.tag}
             fill
             priority={idx === 0}
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-disa-blue/80 via-disa-blue/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-disa-blue/50 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-disa-blue/85 via-disa-blue/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-disa-blue/60 via-transparent to-transparent" />
         </div>
       ))}
 
-      {/* CONTENIDO — encima de las imágenes */}
+      {/* Contenido */}
       <div className="relative z-10 h-full flex flex-col justify-end px-5 md:px-12 lg:px-24 pb-24 md:pb-36">
         <div className="max-w-5xl w-full">
 
+          {/* Tag de referencia */}
           <motion.div
-            key={`lbl-${active}`}
-            initial={{ opacity: 0, y: 10 }}
+            key={`tag-${active}`}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.6 }}
             className="flex items-center gap-4 mb-6 md:mb-8"
           >
             <span className="h-px w-10 bg-disa-gold flex-shrink-0" />
             <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
-              {SLIDES[active].ambient} · {SLIDES[active].textile}
+              {SLIDES[active].tag}
             </p>
           </motion.div>
 
-          <h1 className="text-white font-black uppercase tracking-tight leading-[0.9] text-[14vw] md:text-[9vw] lg:text-[8vw] xl:text-[7vw]">
-            Textiles que <br />
-            <span className="text-disa-gold">definen</span> el espacio.
+          {/* Headline B2B */}
+          <h1 className="text-white font-black uppercase tracking-tight leading-[0.88] text-[13vw] md:text-[8.5vw] lg:text-[7.5vw] xl:text-[6.5vw]">
+            La tela detrás <br />
+            de los mejores <br />
+            <span className="text-disa-gold">proyectos.</span>
           </h1>
 
-          <p className="text-white/75 text-sm md:text-base font-light mt-6 md:mt-8 max-w-lg leading-relaxed">
-            Soluciones premium en cortinas y persianas para arquitectura
-            residencial y corporativa. Colombia.
+          {/* Subheadline orientado a la industria */}
+          <p className="text-white/70 text-sm md:text-base font-light mt-6 md:mt-8 max-w-xl leading-relaxed">
+            Proveemos textiles de alta gama a fabricantes, distribuidores y
+            talleres en Colombia. Más de 200 referencias en screen solar,
+            blackout, sheer y lino.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-8 md:mt-12">
+          {/* Clientes tipo — social proof visual */}
+          <div className="flex flex-wrap items-center gap-3 mt-6">
+            {["Talleres", "Fabricantes", "Distribuidores", "Mayoristas"].map((tipo) => (
+              <span
+                key={tipo}
+                className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 border border-white/15 px-4 py-1.5"
+              >
+                {tipo}
+              </span>
+            ))}
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 mt-8 md:mt-10">
             <a
               href="#catalogo"
               onClick={(e) => {
@@ -103,7 +135,7 @@ export const HeroSlider = ({ onCotizarClick }: HeroSliderProps) => {
               }}
               className="inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 bg-disa-gold text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-disa-gold-light transition-all duration-500 group"
             >
-              Explorar colecciones
+              Ver catálogo de telas
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
             <button
@@ -116,14 +148,13 @@ export const HeroSlider = ({ onCotizarClick }: HeroSliderProps) => {
         </div>
       </div>
 
-      {/* INDICADORES */}
+      {/* Indicadores */}
       <div className="absolute bottom-8 right-5 md:right-12 lg:right-24 flex items-center gap-4 z-10">
         <div className="flex gap-2">
           {SLIDES.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => goTo(idx)}
-              aria-label={`Slide ${idx + 1}`}
+              onClick={() => { setPrev(active); setActive(idx); }}
               className="relative h-px overflow-hidden transition-all duration-500"
               style={{ width: idx === active ? "3rem" : "1.5rem" }}
             >
@@ -132,7 +163,7 @@ export const HeroSlider = ({ onCotizarClick }: HeroSliderProps) => {
                 <motion.span
                   key={`p-${active}`}
                   initial={{ scaleX: 0 }}
-                  animate={{ scaleX: paused ? 1 : 1 }}
+                  animate={{ scaleX: 1 }}
                   transition={{ duration: INTERVAL / 1000, ease: "linear" }}
                   className="absolute inset-0 bg-disa-gold origin-left"
                 />
@@ -145,7 +176,7 @@ export const HeroSlider = ({ onCotizarClick }: HeroSliderProps) => {
         </p>
       </div>
 
-      {/* SCROLL HINT */}
+      {/* Scroll hint */}
       <div className="absolute bottom-8 left-5 md:left-12 lg:left-24 flex items-center gap-3 z-10">
         <motion.div
           animate={{ y: [0, 6, 0] }}

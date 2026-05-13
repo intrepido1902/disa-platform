@@ -4,24 +4,27 @@ import Image from "next/image";
 
 const CATEGORIES = [
   {
-    id: "cortinas",
-    title: "Cortinas",
-    subtitle: "Sheer · Blackout · Lino Natural",
+    id: "screen",
+    title: "Screen Solar",
+    subtitle: "Apertura 3% · 5% · 10%",
+    detail: "Control térmico y visual. La referencia más pedida por instaladores y fabricantes de sistemas roller.",
+    image: "/imagenes/productos/screen-sun-control.jpeg",
+    href: "#catalogo",
+  },
+  {
+    id: "blackout",
+    title: "Blackout",
+    subtitle: "Bloqueo total de luz · Clase 1",
+    detail: "Certificación ignífuga NFPA 701. Material preferido por fabricantes de cortinas para hoteles y oficinas.",
     image: "/imagenes/productos/cortina-blackout-pro.jpeg",
     href: "#catalogo",
   },
   {
-    id: "persianas",
-    title: "Persianas",
-    subtitle: "Roller · Romanas · Verticales",
-    image: "/imagenes/productos/roller-premium.jpeg",
-    href: "#catalogo",
-  },
-  {
-    id: "screen",
-    title: "Screen Solar",
-    subtitle: "Control térmico arquitectónico",
-    image: "/imagenes/productos/screen-sun-control.jpeg",
+    id: "sheer",
+    title: "Sheer & Lino",
+    subtitle: "Transparencias · Fibras naturales",
+    detail: "Colecciones premium para talleres y decoradores que trabajan proyectos residenciales de alto nivel.",
+    image: "/imagenes/productos/sheer-elegance.jpeg",
     href: "#catalogo",
   },
 ];
@@ -43,16 +46,17 @@ export const CategoriesStrip = () => {
             <div className="flex items-center gap-4 mb-5">
               <span className="h-px w-10 bg-disa-gold flex-shrink-0" />
               <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
-                Líneas
+                Líneas de producto
               </p>
             </div>
             <h2 className="text-disa-blue text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.9]">
-              Tres líneas, <br className="hidden md:block" />
-              infinitas atmósferas.
+              Tres líneas. <br />
+              Todo lo que tu taller necesita.
             </h2>
           </div>
           <p className="text-disa-blue/55 text-sm md:text-base font-light max-w-xs leading-relaxed">
-            Cada colección resuelve una necesidad específica de luz y privacidad.
+            Cada línea resuelve un segmento diferente del mercado. Disponibles
+            para distribuidores en todo Colombia.
           </p>
         </motion.div>
 
@@ -62,10 +66,14 @@ export const CategoriesStrip = () => {
             <motion.a
               key={cat.id}
               href={cat.href}
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector(cat.href)?.scrollIntoView({ behavior: "smooth" });
+              }}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.75, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.75, delay: idx * 0.12 }}
               className="group relative aspect-[3/4] overflow-hidden cursor-pointer block"
             >
               <Image
@@ -73,26 +81,24 @@ export const CategoriesStrip = () => {
                 alt={cat.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover transition-transform duration-[1.3s] ease-out group-hover:scale-[1.07]"
+                className="object-cover transition-transform duration-[1.3s] ease-out group-hover:scale-[1.06]"
               />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-disa-blue/90 via-disa-blue/25 to-transparent transition-all duration-700 group-hover:from-disa-blue/95" />
+              <div className="absolute inset-0 bg-gradient-to-t from-disa-blue/95 via-disa-blue/30 to-transparent transition-all duration-700" />
 
-              {/* Contenido */}
               <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-8 text-white">
-                <motion.div
-                  className="flex items-center gap-3 mb-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500"
-                >
-                  <span className="h-px w-6 bg-disa-gold" />
+                <div className="translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 mb-3">
                   <p className="text-disa-gold text-[9px] font-bold tracking-[0.4em] uppercase">
                     {cat.subtitle}
                   </p>
-                </motion.div>
-                <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight leading-none transition-transform duration-500 group-hover:-translate-y-1">
+                </div>
+                <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight leading-none mb-3 transition-transform duration-500 group-hover:-translate-y-1">
                   {cat.title}
                 </h3>
-                <div className="flex items-center gap-3 mt-5 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="text-[10px] font-bold tracking-[0.3em] uppercase">Explorar</span>
+                <p className="text-white/60 text-xs font-light leading-relaxed max-w-xs translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">
+                  {cat.detail}
+                </p>
+                <div className="flex items-center gap-3 mt-5 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                  <span className="text-[10px] font-bold tracking-[0.3em] uppercase">Ver referencias</span>
                   <span className="text-sm transition-transform duration-500 group-hover:translate-x-2">→</span>
                 </div>
               </div>

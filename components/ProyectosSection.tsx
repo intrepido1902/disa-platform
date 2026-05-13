@@ -24,7 +24,7 @@ despues: "/proyectos/proyecto1-despues.png",
   {
     id: 3,
     ciudad: "Cali",
-    ;tipo: "Corporativo",
+    tipo: "Corporativo",
     tela: "Screen Solar Plus",
     antes: "/proyectos/proyecto3-antes.png",
     despues: "/proyectos/proyecto3-despues.png",

@@ -19,9 +19,25 @@ interface HomePageClientProps {
 }
 
 export default function HomePageClient({ productos }: HomePageClientProps) {
-  const [viewMode, setViewMode] = useState<ViewMode>("inspirational");
+  // Por defecto: modo Empresa (B2B) — foco principal del negocio
+  const [viewMode, setViewMode] = useState<ViewMode>("technical");
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const [muestraProducto, setMuestraProducto] = useState<string | undefined>();
+
+  const handleMuestra = (producto: { nombre: string }) => {
+    const msg = encodeURIComponent(
+      `Hola DISA 👋 Me gustaría recibir una muestra física de la tela *${producto.nombre}*. ¿Pueden enviarme información?`
+    );
+    window.open(`https://wa.me/573007805902?text=${msg}`, "_blank", "noopener,noreferrer");
+  };
+
+  const handleExplorar = (producto: { nombre: string; color: string }) => {
+    const msg = encodeURIComponent(
+      `Hola DISA 👋 Me interesa la referencia *${producto.nombre}* (${producto.color}). ¿Pueden darme información técnica y precio mayorista?`
+    );
+    window.open(`https://wa.me/573007805902?text=${msg}`, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <main className="relative min-h-screen bg-disa-sand font-sans overflow-x-hidden">
@@ -29,10 +45,10 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
       {/* NAV */}
       <Nav onCotizarClick={() => setQuoteOpen(true)} />
 
-      {/* HERO */}
+      {/* HERO B2B */}
       <HeroSlider onCotizarClick={() => setQuoteOpen(true)} />
 
-      {/* CATEGORÍAS */}
+      {/* CATEGORÍAS DE TELAS */}
       <CategoriesStrip />
 
       {/* TRAYECTORIA */}
@@ -52,18 +68,18 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
               <div className="flex items-center gap-4 mb-7">
                 <span className="h-px w-10 bg-disa-gold flex-shrink-0" />
                 <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
-                  Nuestra Trayectoria
+                  15 años en la industria
                 </p>
               </div>
               <h2 className="text-disa-blue text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-[0.9]">
-                Materiales <br />
-                <span className="text-disa-gold">que rinden.</span>
+                Números que <br />
+                <span className="text-disa-gold">respaldan.</span>
               </h2>
             </div>
             <div className="lg:col-span-5 lg:col-start-8 flex items-end">
               <p className="text-disa-blue/55 text-base font-light leading-relaxed">
-                Más de una década suministrando textiles arquitectónicos de alta
-                gama para residencias y proyectos corporativos en Colombia.
+                Proveedores de textiles técnicos para la industria colombiana
+                de cortinas y persianas. Distribución a nivel nacional desde Bogotá.
               </p>
             </div>
           </motion.div>
@@ -71,18 +87,17 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
         </div>
       </section>
 
-      {/* POR QUÉ DISA */}
+      {/* POR QUÉ DISA (B2B) */}
       <WhyDisa />
 
-      {/* PROYECTOS ANTES/DESPUÉS */}
-      <ProyectosSection />
-
-      {/* CATÁLOGO */}
+      {/* CATÁLOGO DE TELAS */}
       <section
         id="catalogo"
-        className="bg-white py-24 md:py-32 px-6 md:px-12 lg:px-20 scroll-mt-20"
+        className="bg-disa-sand py-24 md:py-32 px-6 md:px-12 lg:px-20 scroll-mt-20"
       >
         <div className="max-w-[1600px] mx-auto">
+
+          {/* Header catálogo */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -94,49 +109,58 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
               <div className="flex items-center gap-4 mb-7">
                 <span className="h-px w-10 bg-disa-gold flex-shrink-0" />
                 <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
-                  Catálogo Premium
+                  Catálogo de referencias
                 </p>
               </div>
               <h2 className="text-disa-blue text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-[0.9]">
-                Colecciones <br />
-                <span className="text-disa-gold">2026.</span>
+                Nuestras <br />
+                <span className="text-disa-gold">telas.</span>
               </h2>
             </div>
+
             <div className="lg:col-span-6 lg:col-start-7 flex flex-col justify-end gap-6">
               <p className="text-disa-blue/55 text-sm md:text-base font-light leading-relaxed">
-                Cada colección resuelve una necesidad específica. Elige tu vista:
+                Cada referencia incluye ficha técnica completa. Alterna entre
+                la vista de <strong className="font-medium text-disa-blue">distribuidores</strong> (con
+                cotizador y specs) o <strong className="font-medium text-disa-blue">cliente final</strong>.
               </p>
+
+              {/* Toggle — Empresa primero (foco B2B) */}
               <div
                 className="inline-flex self-start bg-disa-blue/6 p-1 rounded-full"
                 role="group"
                 aria-label="Tipo de visualización"
               >
-                {[
-                  { mode: "inspirational" as ViewMode, label: "Hogar" },
-                  { mode: "technical" as ViewMode, label: "Empresa" },
-                ].map(({ mode, label }) => (
-                  <button
-                    key={mode}
-                    onClick={() => setViewMode(mode)}
-                    className={`px-8 py-3 rounded-full text-[9px] font-bold uppercase tracking-[0.3em] transition-all duration-500 ${
-                      viewMode === mode
-                        ? "bg-disa-blue text-white shadow-md"
-                        : "text-disa-blue/45 hover:text-disa-blue"
-                    }`}
-                    aria-pressed={viewMode === mode}
-                  >
-                    {label}
-                  </button>
-                ))}
+                <button
+                  onClick={() => setViewMode("technical")}
+                  className={`px-8 py-3 rounded-full text-[9px] font-bold uppercase tracking-[0.3em] transition-all duration-500 ${
+                    viewMode === "technical"
+                      ? "bg-disa-blue text-white shadow-md"
+                      : "text-disa-blue/45 hover:text-disa-blue"
+                  }`}
+                  aria-pressed={viewMode === "technical"}
+                >
+                  Distribuidor
+                </button>
+                <button
+                  onClick={() => setViewMode("inspirational")}
+                  className={`px-8 py-3 rounded-full text-[9px] font-bold uppercase tracking-[0.3em] transition-all duration-500 ${
+                    viewMode === "inspirational"
+                      ? "bg-disa-blue text-white shadow-md"
+                      : "text-disa-blue/45 hover:text-disa-blue"
+                  }`}
+                  aria-pressed={viewMode === "inspirational"}
+                >
+                  Cliente final
+                </button>
               </div>
             </div>
           </motion.div>
 
+          {/* Grid de productos */}
           {productos.length === 0 ? (
             <div className="py-28 flex flex-col items-center gap-5 text-center">
-              <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
-                Cargando colecciones
-              </p>
+              <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">Cargando referencias</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
@@ -151,18 +175,15 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
                   <DualProductCard
                     producto={producto}
                     viewMode={viewMode}
-                    onExplorar={(p) => {
-                      const wa = `https://wa.me/573007805902?text=${encodeURIComponent(
-                        `Hola DISA 👋 Me interesa la tela *${p.nombre}* (${p.color}). ¿Pueden darme más información y precio?`
-                      )}`;
-                      window.open(wa, "_blank", "noopener,noreferrer");
-                    }}
+                    onExplorar={handleExplorar}
+                    onMuestra={handleMuestra}
                   />
                 </motion.div>
               ))}
             </div>
           )}
 
+          {/* CTA catálogo completo */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -171,16 +192,73 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
             className="mt-20 md:mt-24 flex flex-col items-center gap-5 text-center"
           >
             <p className="text-disa-blue/50 text-sm font-light max-w-sm leading-relaxed">
-              Nuestro catálogo completo incluye más de 200 referencias con
-              fichas técnicas, muestras y precios actualizados.
+              ¿Necesitas referencias que no ves aquí? Tenemos más de 200 telas
+              disponibles. Solicita el catálogo completo con fichas técnicas.
             </p>
             <button
               onClick={() => setCatalogOpen(true)}
               className="inline-flex items-center gap-3 bg-disa-blue text-white px-10 py-5 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-disa-blue-mid transition-all duration-500 group"
             >
-              Solicitar catálogo completo
+              Descargar catálogo completo
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* PROYECTOS */}
+      <ProyectosSection />
+
+      {/* REGISTRO DISTRIBUIDORES */}
+      <section className="bg-disa-blue py-20 md:py-28 px-6 md:px-12 lg:px-20">
+        <div className="max-w-[1600px] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          >
+            <div>
+              <div className="flex items-center gap-4 mb-7">
+                <span className="h-px w-10 bg-disa-gold flex-shrink-0" />
+                <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
+                  Red de distribuidores
+                </p>
+              </div>
+              <h2 className="text-white text-4xl md:text-5xl font-black uppercase tracking-tight leading-[0.9] mb-6">
+                ¿Tu taller quiere <br />
+                <span className="text-disa-gold">precios mayoristas?</span>
+              </h2>
+              <p className="text-white/55 text-base font-light leading-relaxed mb-8">
+                Regístrate como distribuidor autorizado de DISA y accede a precios
+                escalonados, acceso prioritario a nuevas referencias y soporte
+                técnico dedicado para tus proyectos.
+              </p>
+              <a
+                href={`https://wa.me/573007805902?text=${encodeURIComponent("Hola DISA 👋 Somos un taller/distribuidor y queremos registrarnos para acceder a precios mayoristas. ¿Cómo es el proceso?")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-disa-gold text-white px-10 py-4 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-disa-gold-light transition-all duration-500 group"
+              >
+                Registrar mi empresa
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </a>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { numero: "15%", label: "Descuento máximo por volumen" },
+                { numero: "24h", label: "Despacho desde Bogotá" },
+                { numero: "200+", label: "Referencias disponibles" },
+                { numero: "0", label: "Pedido mínimo requerido" },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-white/5 border border-white/10 p-6">
+                  <p className="text-disa-gold text-3xl md:text-4xl font-black tracking-tight mb-2">{stat.numero}</p>
+                  <p className="text-white/50 text-[10px] font-bold tracking-[0.2em] uppercase leading-tight">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -188,12 +266,16 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
       {/* FOOTER */}
       <Footer />
 
-      {/* WHATSAPP PROACTIVO (reemplaza el botón simple) */}
+      {/* WHATSAPP PROACTIVO */}
       <WhatsAppProactive />
 
       {/* MODALES */}
       <CatalogModal isOpen={catalogOpen} onClose={() => setCatalogOpen(false)} />
-      <QuoteModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
+      <QuoteModal
+        isOpen={quoteOpen}
+        onClose={() => { setQuoteOpen(false); setMuestraProducto(undefined); }}
+        productoPreseleccionado={muestraProducto}
+      />
     </main>
   );
 }
