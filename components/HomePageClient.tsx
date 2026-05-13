@@ -10,6 +10,7 @@ import { DualProductCard } from "./DualProductCard";
 import { AnimatedStats } from "./AnimatedStats";
 import { CatalogModal } from "./CatalogModal";
 import { QuoteModal } from "./QuoteModal";
+import { RegistroModal } from "./RegistroModal";
 import { Footer } from "./Footer";
 import { WhatsAppProactive } from "./WhatsAppProactive";
 import type { Producto, ViewMode } from "@/types";
@@ -19,10 +20,10 @@ interface HomePageClientProps {
 }
 
 export default function HomePageClient({ productos }: HomePageClientProps) {
-  // Por defecto: modo Empresa (B2B) — foco principal del negocio
   const [viewMode, setViewMode] = useState<ViewMode>("technical");
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const [registroOpen, setRegistroOpen] = useState(false);
   const [muestraProducto, setMuestraProducto] = useState<string | undefined>();
 
   const handleMuestra = (producto: { nombre: string }) => {
@@ -97,7 +98,6 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
       >
         <div className="max-w-[1600px] mx-auto">
 
-          {/* Header catálogo */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -125,7 +125,6 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
                 cotizador y specs) o <strong className="font-medium text-disa-blue">cliente final</strong>.
               </p>
 
-              {/* Toggle — Empresa primero (foco B2B) */}
               <div
                 className="inline-flex self-start bg-disa-blue/6 p-1 rounded-full"
                 role="group"
@@ -160,7 +159,9 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
           {/* Grid de productos */}
           {productos.length === 0 ? (
             <div className="py-28 flex flex-col items-center gap-5 text-center">
-              <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">Cargando referencias</p>
+              <p className="text-disa-gold text-[10px] font-bold tracking-[0.5em] uppercase">
+                Cargando referencias
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
@@ -235,15 +236,15 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
                 escalonados, acceso prioritario a nuevas referencias y soporte
                 técnico dedicado para tus proyectos.
               </p>
-              <a
-                href={`https://wa.me/573007805902?text=${encodeURIComponent("Hola DISA 👋 Somos un taller/distribuidor y queremos registrarnos para acceder a precios mayoristas. ¿Cómo es el proceso?")}`}
-                target="_blank"
-                rel="noopener noreferrer"
+
+              {/* ── BOTÓN CORREGIDO — abre RegistroModal ── */}
+              <button
+                onClick={() => setRegistroOpen(true)}
                 className="inline-flex items-center gap-3 bg-disa-gold text-white px-10 py-4 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-disa-gold-light transition-all duration-500 group"
               >
                 Registrar mi empresa
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </a>
+              </button>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -251,11 +252,15 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
                 { numero: "15%", label: "Descuento máximo por volumen" },
                 { numero: "24h", label: "Despacho desde Bogotá" },
                 { numero: "200+", label: "Referencias disponibles" },
-                { numero: "0", label: "Pedido mínimo requerido" },
+                { numero: "0",   label: "Pedido mínimo requerido" },
               ].map((stat) => (
                 <div key={stat.label} className="bg-white/5 border border-white/10 p-6">
-                  <p className="text-disa-gold text-3xl md:text-4xl font-black tracking-tight mb-2">{stat.numero}</p>
-                  <p className="text-white/50 text-[10px] font-bold tracking-[0.2em] uppercase leading-tight">{stat.label}</p>
+                  <p className="text-disa-gold text-3xl md:text-4xl font-black tracking-tight mb-2">
+                    {stat.numero}
+                  </p>
+                  <p className="text-white/50 text-[10px] font-bold tracking-[0.2em] uppercase leading-tight">
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
@@ -269,12 +274,19 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
       {/* WHATSAPP PROACTIVO */}
       <WhatsAppProactive />
 
-      {/* MODALES */}
-      <CatalogModal isOpen={catalogOpen} onClose={() => setCatalogOpen(false)} />
+      {/* ── MODALES ── */}
+      <CatalogModal
+        isOpen={catalogOpen}
+        onClose={() => setCatalogOpen(false)}
+      />
       <QuoteModal
         isOpen={quoteOpen}
         onClose={() => { setQuoteOpen(false); setMuestraProducto(undefined); }}
         productoPreseleccionado={muestraProducto}
+      />
+      <RegistroModal
+        isOpen={registroOpen}
+        onClose={() => setRegistroOpen(false)}
       />
     </main>
   );
