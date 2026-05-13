@@ -15,22 +15,22 @@ despues: "/proyectos/proyecto1-despues.png",
   {
     id: 2,
     ciudad: "Medellín",
-    tipo: "Corporativo",
-    tela: "Screen Solar Plus",
+    tipo: "Residencial",
+    tela: "Cortina Blackout Pro",
     antes: "/proyectos/proyecto2-antes.png",
     despues: "/proyectos/proyecto2-despues.png",
-    descripcion: "Oficinas corporativas con control solar premium para mayor productividad.",
+    descripcion: "Dormitorio principal con blackout total para un descanso perfecto.",
   },
   {
     id: 3,
     ciudad: "Cali",
-    tipo: "Residencial",
-    tela: "Cortina Blackout Pro",
+    ;tipo: "Corporativo",
+    tela: "Screen Solar Plus",
     antes: "/proyectos/proyecto3-antes.png",
     despues: "/proyectos/proyecto3-despues.png",
-    descripcion: "Dormitorio principal con blackout total para un descanso perfecto.",
+    descripcion: "Oficinas corporativas con control solar premium para mayor productividad.",
   },
-];
+]
 
 const ProjectCard = ({ proyecto, idx }: { proyecto: typeof PROYECTOS[0]; idx: number }) => {
   const [showDespues, setShowDespues] = useState(true);
