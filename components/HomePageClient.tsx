@@ -4,11 +4,14 @@ import { motion } from "framer-motion";
 import { Nav } from "./Nav";
 import { HeroSlider } from "./HeroSlider";
 import { CategoriesStrip } from "./CategoriesStrip";
+import { ProyectosSection } from "./ProyectosSection";
+import { WhyDisa } from "./WhyDisa";
 import { DualProductCard } from "./DualProductCard";
 import { AnimatedStats } from "./AnimatedStats";
 import { CatalogModal } from "./CatalogModal";
+import { QuoteModal } from "./QuoteModal";
 import { Footer } from "./Footer";
-import { WhatsAppButton } from "./WhatsAppButton";
+import { WhatsAppProactive } from "./WhatsAppProactive";
 import type { Producto, ViewMode } from "@/types";
 
 interface HomePageClientProps {
@@ -18,14 +21,25 @@ interface HomePageClientProps {
 export default function HomePageClient({ productos }: HomePageClientProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("inspirational");
   const [catalogOpen, setCatalogOpen] = useState(false);
+  const [quoteOpen, setQuoteOpen] = useState(false);
 
   return (
     <main className="relative min-h-screen bg-disa-sand font-sans overflow-x-hidden">
-      <Nav />
-      <HeroSlider />
+
+      {/* NAV */}
+      <Nav onCotizarClick={() => setQuoteOpen(true)} />
+
+      {/* HERO */}
+      <HeroSlider onCotizarClick={() => setQuoteOpen(true)} />
+
+      {/* CATEGORÍAS */}
       <CategoriesStrip />
 
-      <section className="bg-white py-24 md:py-32 px-6 md:px-12 lg:px-20">
+      {/* TRAYECTORIA */}
+      <section
+        id="nosotros"
+        className="bg-white py-24 md:py-32 px-6 md:px-12 lg:px-20 scroll-mt-20"
+      >
         <div className="max-w-[1600px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -57,7 +71,17 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
         </div>
       </section>
 
-      <section id="catalogo" className="bg-disa-sand py-24 md:py-32 px-6 md:px-12 lg:px-20">
+      {/* POR QUÉ DISA */}
+      <WhyDisa />
+
+      {/* PROYECTOS ANTES/DESPUÉS */}
+      <ProyectosSection />
+
+      {/* CATÁLOGO */}
+      <section
+        id="catalogo"
+        className="bg-white py-24 md:py-32 px-6 md:px-12 lg:px-20 scroll-mt-20"
+      >
         <div className="max-w-[1600px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -80,8 +104,7 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
             </div>
             <div className="lg:col-span-6 lg:col-start-7 flex flex-col justify-end gap-6">
               <p className="text-disa-blue/55 text-sm md:text-base font-light leading-relaxed">
-                Cada colección está diseñada para resolver una necesidad
-                arquitectónica específica. Elige tu vista:
+                Cada colección resuelve una necesidad específica. Elige tu vista:
               </p>
               <div
                 className="inline-flex self-start bg-disa-blue/6 p-1 rounded-full"
@@ -123,14 +146,14 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.65, delay: (idx % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.65, delay: (idx % 3) * 0.1 }}
                 >
                   <DualProductCard
                     producto={producto}
                     viewMode={viewMode}
                     onExplorar={(p) => {
                       const wa = `https://wa.me/573007805902?text=${encodeURIComponent(
-                        `Hola DISA 👋 Me interesa la tela ${p.nombre} (${p.color}). ¿Pueden darme más información?`
+                        `Hola DISA 👋 Me interesa la tela *${p.nombre}* (${p.color}). ¿Pueden darme más información y precio?`
                       )}`;
                       window.open(wa, "_blank", "noopener,noreferrer");
                     }}
@@ -162,9 +185,15 @@ export default function HomePageClient({ productos }: HomePageClientProps) {
         </div>
       </section>
 
+      {/* FOOTER */}
       <Footer />
-      <WhatsAppButton />
+
+      {/* WHATSAPP PROACTIVO (reemplaza el botón simple) */}
+      <WhatsAppProactive />
+
+      {/* MODALES */}
       <CatalogModal isOpen={catalogOpen} onClose={() => setCatalogOpen(false)} />
+      <QuoteModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </main>
   );
 }

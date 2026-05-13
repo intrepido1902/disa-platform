@@ -16,15 +16,6 @@ const NAV_LINKS = [
   { href: "#nosotros", label: "Nosotros" },
 ];
 
-const smoothScroll = (href: string) => {
-  if (href.startsWith("#")) {
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-};
-
 export const Nav = ({ onCotizarClick }: NavProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,10 +26,15 @@ export const Nav = ({ onCotizarClick }: NavProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
-    smoothScroll(href);
+    setTimeout(() => {
+      const el = document.querySelector(href);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
 
   return (
@@ -109,7 +105,7 @@ export const Nav = ({ onCotizarClick }: NavProps) => {
 
             {/* CTA Cotizar */}
             <button
-              onClick={onCotizarClick}
+              onClick={(e) => { e.preventDefault(); onCotizarClick?.(); }}
               className="inline-flex items-center gap-2 bg-disa-gold text-white px-7 py-3 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-disa-gold-light transition-all duration-500 group"
             >
               Cotizar
@@ -117,7 +113,7 @@ export const Nav = ({ onCotizarClick }: NavProps) => {
             </button>
           </div>
 
-          {/* Mobile toggle */}
+          {/* Mobile hamburger */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`lg:hidden flex flex-col gap-[5px] p-2 transition-colors ${
@@ -147,9 +143,7 @@ export const Nav = ({ onCotizarClick }: NavProps) => {
               onClick={() => setIsMenuOpen(false)}
               className="absolute top-6 right-6 text-white/60 hover:text-white text-xl p-2"
               aria-label="Cerrar menú"
-            >
-              ✕
-            </button>
+            >✕</button>
 
             <div className="relative h-12 w-40 mb-14">
               <Image
@@ -187,7 +181,7 @@ export const Nav = ({ onCotizarClick }: NavProps) => {
               className="mt-12 flex flex-col items-center gap-5"
             >
               <button
-                onClick={() => { setIsMenuOpen(false); onCotizarClick?.(); }}
+                onClick={() => { setIsMenuOpen(false); setTimeout(() => onCotizarClick?.(), 300); }}
                 className="bg-disa-gold text-white px-12 py-4 text-[11px] font-black uppercase tracking-[0.3em]"
               >
                 Cotizar →
